@@ -229,12 +229,9 @@ style choice_button_text is default:
 ## внеигровым меню.
 
 screen quick_menu():
-
     ## Гарантирует, что оно появляется поверх других экранов.
     zorder 100
-
     if quick_menu:
-
         hbox:
             style_prefix "quick"
 
@@ -403,6 +400,8 @@ style main_menu_version:
 
 screen game_menu(title, scroll=None, yinitial=0.0):
     style_prefix "game_menu"
+
+    on "show" action [Play("music", "audio/game_menu.mp3", selected=None, relative_volume=0.3), PauseAudio("sound")]
 
     if main_menu:
         add gui.main_menu_background
@@ -952,15 +951,11 @@ screen help():
                 textbutton _("Клавиатура") action SetScreenVariable("device", "keyboard")
                 textbutton _("Мышь") action SetScreenVariable("device", "mouse")
 
-                if GamepadExists():
-                    textbutton _("Геймпад") action SetScreenVariable("device", "gamepad")
 
             if device == "keyboard":
                 use keyboard_help
             elif device == "mouse":
                 use mouse_help
-            elif device == "gamepad":
-                use gamepad_help
 
 
 screen keyboard_help():
@@ -1031,36 +1026,6 @@ screen mouse_help():
     hbox:
         label _("Колёсико вниз")
         text _("Откатывает предыдущее действие вперёд.")
-
-
-screen gamepad_help():
-
-    hbox:
-        label _("Правый триггер\nA/Нижняя кнопка")
-        text _("Прохождение диалогов, активация интерфейса.")
-
-    hbox:
-        label _("Левый Триггер\nЛевый Бампер")
-        text _("Откат назад по сюжету игры.")
-
-    hbox:
-        label _("Правый бампер")
-        text _("Откатывает предыдущее действие вперёд.")
-
-
-    hbox:
-        label _("Крестовина, Стики")
-        text _("Навигация по интерфейсу.")
-
-    hbox:
-        label _("Start, Guide")
-        text _("Вход в игровое меню.")
-
-    hbox:
-        label _("Y/Верхняя кнопка")
-        text _("Скрывает интерфейс пользователя.")
-
-    textbutton _("Калибровка") action GamepadCalibrate()
 
 
 style help_button is gui_button
